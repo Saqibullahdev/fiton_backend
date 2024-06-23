@@ -1,5 +1,5 @@
-#This repository contains backends code for fiton gym website
-#The code is written in javascript and uses node js framework
+# This repository contains backends code for fiton gym website
+## The code is written in javascript and uses node js framework
 
 ## Installation
 1. Clone the repository using the following command
@@ -21,7 +21,7 @@ node index.js
 
 ## API Endpoints
 ### Admin Endpoints
-1- ### Admin Signup
+1. ## Admin Signup
 
 1. POST localhost:3000/api/v1/admin/signup
 request body:

@@ -5,6 +5,7 @@ const {isClient}=require('./isClient')
 const {isTrainer}=require('./isTrainer')
 const {createPostValidator}=require('./postValidator')
 const {createTrainerValidator}=require('./trainerValidator')
+const {isTrainerOrClient}=require('./isTrainerOrClient')
 
 
 module.exports={
@@ -14,7 +15,8 @@ module.exports={
     isClient,
     isTrainer,
     createPostValidator,
-    createTrainerValidator
+    createTrainerValidator,
+    isTrainerOrClient
 }
 
 

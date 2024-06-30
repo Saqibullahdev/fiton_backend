@@ -83,11 +83,7 @@ function createPostValidator(req, res, next) {
                 .json(errorResponse(ReasonPhrases.BAD_REQUEST, new BadRequest("Expiration Date")));
     }
 
-    if (!req.body.client_id) {
-        return res
-                .status(StatusCodes.BAD_REQUEST)
-                .json(errorResponse(ReasonPhrases.BAD_REQUEST, new BadRequest("Client ID")));
-    }
+   
 
     // If everything looks good
     next();

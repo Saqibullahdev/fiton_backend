@@ -31,6 +31,13 @@ const createAdmin=async(req,res)=>{
 const loginAdmin=async(req,res)=>{
     try{
         const {email,password}=req.body;
+        if(!email||!password){
+            return res.status(StatusCodes.BAD_REQUEST).json({
+                error:'Please provide email and password',
+                success:false,
+                ok:false
+            });
+        }
         const token=await AdminServices.LoginAdmin(email,password);
         res.cookie(
             'admin_token',

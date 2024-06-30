@@ -1,7 +1,7 @@
-const Client=require('../models/client_post')
+const Client=require('../models/client_model')
 const {hashPassword}=require('../helpers/hashpassword')
 const {generateToken}=require('../helpers/jwtToken')
-
+const argon2=require('argon2');
 
 class clientServices{
     async createClient(fullname,email,phone_number,password,date_of_birth,gender){
@@ -19,8 +19,8 @@ class clientServices{
             await client.save();
             return client;
         }catch(error){
-            console.error('Error creating client:',error);
-            throw new Error('Error creating client');
+            console.error('Error creating client ->:',error.message);
+            throw new Error(error.message || 'Error creating client');
         }
     }
 
@@ -43,7 +43,7 @@ class clientServices{
         }
         catch(error){
             console.error('Error logging in client:',error);
-            throw new Error('Error logging in client');
+            throw new Error(error.message || 'Error logging in client');
         }
 
     }

@@ -24,7 +24,7 @@ const createClient = async (req, res) => {
   } catch (error) {
     console.error("Error creating client:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      error: "Error creating client",
+      error: error.message || "Error creating",
       success: false,
     });
   }
@@ -36,6 +36,12 @@ const createClient = async (req, res) => {
 const loginClient = async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: "Please provide email and password",
+        success: false,
+      });
+    }
     const token = await clientServices.LoginClient(email, password);
     res.cookie("client_token", token, {
       httpOnly: true,

@@ -27,7 +27,7 @@ const isTrainer = function (req, res, next) {
 
     // modify my request object
 
-    req.trainer = { email: decodedToken.email, id: decodedToken._id,role: decodedToken.role, username: decodedToken.username};
+    req.trainer = { email: decodedToken.email, id: decodedToken.id,role: decodedToken.role, username: decodedToken.username};
 
     next();
 }

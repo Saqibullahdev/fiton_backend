@@ -151,3 +151,203 @@ module.exports = {
 }
 
 
+//comment 
+{
+  "comment": "This sounds interesting!",
+  "client_id": "60d0fe4f5311236168a109cb",
+  "trainer_id": null,
+  "replies": [
+      {
+          "reply": "Thank you! Please contact me for more details.",
+          "client_id": "60d0fe4f5311236168a109cc",
+          "trainer_id": null
+      }
+  ]
+}
+
+
+// comment reply
+{
+  "reply": "Thank you! Please contact me for more details.",
+  "client_id": "60d0fe4f5311236168a109cc",
+  "trainer_id": null
+}
+
+
+
+
+
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const trainerSchema = new Schema({
+    fullname: {
+        type: String,
+        required: true
+    },
+
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    phone_number: {
+        type: String,
+        required: true
+    },
+
+    password: {
+        type: String,
+        required: true
+    },
+
+    gender: {
+        type: String,
+        required: true
+    },
+
+    date_of_birth: {
+        type: Date,
+        required: true
+    },
+
+    role: {
+        type: String,
+        default: 'trainer'
+    },
+
+    expertise: {
+        type: String,
+        required: true
+    },
+    
+    certification: {
+        type: String,
+        required: true
+    },
+
+    experience: {
+        type: String,
+        required: true
+    },
+
+    availability: {
+        type: String,
+        required: true
+    },
+    biography:{
+        type: String,
+        required: true
+    }
+    ,
+
+    training_locations: {
+        type: String,
+        required: true
+    },
+
+    isVerified: {
+        type: Boolean,
+        default: false
+    }
+
+},{timestamps: true});
+
+module.exports = mongoose.model('Trainer', trainerSchema);
+
+
+const {
+    client_id,
+    title,
+    description,
+    budget,
+    availability,
+    location,
+    durationOfTraining,
+    fitnessLevel,
+    healthConditionsOrInjuries,
+    email,
+    phone,
+    postDate,
+    expirationDate,
+    comments
+  } = req.body;
+
+
+  //response of pos
+  {
+    "success": true,
+    "ok": true,
+    "data": [
+        {
+            "_id": "667fb84166f8b0c567a78dcc",
+            "client_id": {
+                "_id": "667f9d1870d3d25fa47db2c6",
+                "fullname": "John Doe",
+                "email": "john.doe@example.com"
+            },
+            "title": "Personal Training Session",
+            "description": "Looking for a personal trainer for weekly sessions.",
+            "budget": 50,
+            "availability": "Weekends",
+            "location": "New York, NY",
+            "durationOfTraining": "1 hour",
+            "fitnessLevel": "Beginner",
+            "healthConditionsOrInjuries": "None",
+            "email": "client@example.com",
+            "phone": "123-456-7890",
+            "postDate": "2024-06-29T00:00:00.000Z",
+            "expirationDate": "2024-07-29T00:00:00.000Z",
+            "createdAt": "2024-06-29T07:31:13.914Z",
+            "updatedAt": "2024-06-29T11:03:44.472Z",
+            "__v": 1
+        },
+        {
+            "_id": "667fefeca319a64e66c8f0b2",
+            "client_id": {
+                "_id": "667f9d1870d3d25fa47db2c6",
+                "fullname": "John Doe",
+                "email": "john.doe@example.com"
+            },
+            "title": "Personal Training Session",
+            "description": "Looking for a personal trainer for weekly sessions.",
+            "budget": 50,
+            "availability": "Weekends",
+            "location": "New York, NY",
+            "durationOfTraining": "1 hour",
+            "fitnessLevel": "Beginner",
+            "healthConditionsOrInjuries": "None",
+            "email": "client@example.com",
+            "phone": "123-456-7890",
+            "postDate": "2024-06-29T00:00:00.000Z",
+            "expirationDate": "2024-07-29T00:00:00.000Z",
+            "comments": [
+                {
+                    "_id": "668004c6e8ca91bbd3ea5e09",
+                    "comment": "testing",
+                    "client_id": {
+                        "_id": "667f9d1870d3d25fa47db2c6",
+                        "fullname": "John Doe",
+                        "email": "john.doe@example.com"
+                    },
+                    "trainer_id": null,
+                    "replies": [
+                        {
+                            "_id": "6680e1cceefd0442de3b62e2",
+                            "reply": "testing",
+                            "client_id": {
+                                "_id": "667f9d1870d3d25fa47db2c6",
+                                "fullname": "John Doe",
+                                "email": "john.doe@example.com"
+                            },
+                            "trainer_id": null
+                        }
+                    ]
+                }
+            ],
+            "createdAt": "2024-06-29T11:28:44.307Z",
+            "updatedAt": "2024-06-29T12:57:42.624Z",
+            "__v": 2
+        }
+    ]
+}

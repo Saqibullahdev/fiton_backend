@@ -43,8 +43,7 @@ class adminServices{
         
         }
         catch(error){
-            console.error('Error logging in admin:',error);
-            throw new Error('Error logging in admin');
+            throw new Error(error.message || 'Error logging in admin');
         }
 
     }

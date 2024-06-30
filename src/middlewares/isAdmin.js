@@ -4,7 +4,6 @@ const UnauthorizedError = require("../errors/unathorizederror");
 const { verifyToken } = require("../helpers/verifytoken");
 
 const isAdmin = function (req, res, next) {
-    console.log(req.cookies);
     if(!req.cookies || !req.cookies.admin_token) {
         return res
                 .status(StatusCodes.UNAUTHORIZED)
@@ -12,8 +11,10 @@ const isAdmin = function (req, res, next) {
     }
     const { admin_token } = req.cookies;
     let decodedToken;
+
     try {
         decodedToken = verifyToken(admin_token);
+        console.log(decodedToken);
         if(decodedToken.role !== 'admin') {
             return res
                 .status(StatusCodes.UNAUTHORIZED)
@@ -27,7 +28,7 @@ const isAdmin = function (req, res, next) {
 
     // modify my request object
 
-    req.admin = { email: decodedToken.email, id: decodedToken._id };
+    req.admin = { email: decodedToken.email, id: decodedToken.id };
 
     next();
 }

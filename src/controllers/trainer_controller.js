@@ -40,9 +40,8 @@ const createTrainer = async (req, res) => {
       ok: true,
     });
   } catch (error) {
-    console.error("Error creating trainer:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      error: "Error creating trainer",
+      error: error.message || "Error creating trainer",
       success: false,
     });
   }
@@ -54,6 +53,12 @@ const createTrainer = async (req, res) => {
 const loginTrainer = async (req, res) => {
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            error: "Please provide email and password",
+            success: false,
+        });
+        }
         const token = await trainerServices.LoginTrainer(email, password);
         res.cookie("trainer_token", token, {
         httpOnly: true,
@@ -69,7 +74,7 @@ const loginTrainer = async (req, res) => {
     } catch (error) {
         console.error("Error logging in trainer:", error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        error: "Error logging in trainer",
+        error: error.message || "Error logging in trainer",
         success: false,
         });
     }
@@ -116,17 +121,38 @@ const verifyTrainer = async (req, res) => {
     }
 }
 
+const deleteTrainer = async (req, res) => {
+    try {
+        const trainerId = req.params.id;
+        const trainer = await trainerServices.deleteTrainer(trainerId);
+        res.status(StatusCodes.OK).json({
+        message: "Trainer deleted successfully",
+        data: trainer,
+        status: "success",
+        ok: true,
+        });
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: "Error deleting trainer",
+        success: false,
+        });
+    }
+}
 
 //get all trainers
 
 const getTrainers = async (req, res) => {
     try {
-        const trainers = await trainerServices.getTrainers();
+        const trainers = await trainerServices.getTrainers(
+          {is_verified: true},
+        );
         res.status(StatusCodes.OK).json({
+        
         message: "Trainers fetched successfully",
-        data: trainers,
         status: "success",
         ok: true,
+        data: trainers,
+        
         });
     } catch (error) {
         console.error("Error fetching trainers:", error);
@@ -137,6 +163,25 @@ const getTrainers = async (req, res) => {
     }
 }
 
+const UnVerifiedTrainers = async (req, res) => {
+  try {
+    const trainers = await trainerServices.getUnVerifiedTrainer();
+    res.status(StatusCodes.OK).json({
+      message: "Unverified trainers fetched successfully",
+      status: "success",
+      ok: true,
+      data: trainers,
+    });
+    
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: error.message || "Error fetching unverified trainers",
+      success: false,
+    });
+    
+  }
+}
+  
 const isLoggedIn=async(req,res,next)=>{
   const trainer=req.trainer
   res.status(StatusCodes.OK).
@@ -148,4 +193,4 @@ const isLoggedIn=async(req,res,next)=>{
   })
 }
 
-module.exports = { createTrainer, loginTrainer, logoutTrainer, verifyTrainer, getTrainers ,isLoggedIn};
+module.exports = { createTrainer, loginTrainer, logoutTrainer, verifyTrainer, getTrainers ,isLoggedIn,UnVerifiedTrainers,deleteTrainer};

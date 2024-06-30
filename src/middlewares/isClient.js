@@ -4,7 +4,6 @@ const UnauthorizedError = require("../errors/unathorizederror");
 const { verifyToken } = require("../helpers/verifytoken");
 
 const isClient = function (req, res, next) {
-    console.log(req.cookies);
     if(!req.cookies || !req.cookies.client_token) {
         return res
                 .status(StatusCodes.UNAUTHORIZED)
@@ -13,8 +12,9 @@ const isClient = function (req, res, next) {
     const { client_token } = req.cookies;
     let decodedToken;
     try {
-        decodedToken = verifyToken(token);
+        decodedToken = verifyToken(client_token);
         if(decodedToken.role !== 'client') {
+
             return res
                 .status(StatusCodes.UNAUTHORIZED)
                 .json(errorResponse(ReasonPhrases.UNAUTHORIZED, new UnauthorizedError("please try to login as client")));
@@ -27,8 +27,7 @@ const isClient = function (req, res, next) {
 
     // modify my request object
 
-    req.user = { email: decodedToken.email, id: decodedToken._id , role: decodedToken.role, username: decodedToken.username};
-
+    req.client = { email: decodedToken.email, id: decodedToken.id , role: decodedToken.role, username: decodedToken.username};
     next();
 }
 

@@ -1,7 +1,7 @@
 const Trainer=require('../models/trainer_model');
 const {hashPassword}=require('../helpers/hashpassword');
 const {generateToken}=require('../helpers/jwtToken');
-
+const argon2=require('argon2');
 
 class trainerServices{
     async createTrainer(fullname, email, phone_number, password, gender, date_of_birth, expertise, certification, experience, availability, biography, training_locations) {
@@ -26,7 +26,7 @@ class trainerServices{
             await trainer.save();
             return trainer;
         } catch (error) {
-            throw new Error('Error creating trainer');
+            throw new Error(error.message || 'Error creating trainer');
         }
     }
 
@@ -48,8 +48,7 @@ class trainerServices{
 
         }
         catch (error) {
-            console.error('Error logging in trainer:', error);
-            throw new Error('Error logging in trainer');
+            throw new Error(error.message || 'Error logging in trainer');
         }
 
     }
@@ -64,18 +63,40 @@ class trainerServices{
             await trainer.save();
             return trainer;
         } catch (error) {
-            throw new Error('Error verifying trainer');
+            throw new Error(error.message || "Error verifying trainer");
         }
     }
 
     async getTrainers() {
         try {
-            const trainers = await Trainer.find();
+            const trainers = await Trainer.find({isVerified:true});
             return trainers;
         } catch (error) {
             throw new Error('Error fetching trainers');
         }
     }
+
+    async deleteTrainer(trainerId) {
+        try {
+            const trainer = await Trainer.findByIdAndDelete(trainerId);
+            if (!trainer) {
+                throw new Error('Trainer not found');
+            }
+            return trainer;
+        } catch (error) {
+            throw new Error(error.message || 'Error deleting trainer');
+        }
+    }
+
+    async getUnVerifiedTrainer() {
+        try {
+            const trainers = await Trainer.find({ isVerified: false });
+            return trainers;
+        } catch (error) {
+            throw new Error(ërror.message || 'Error fetching unverified trainers');
+        }
+    }
+
 
 
 }

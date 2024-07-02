@@ -124,18 +124,7 @@ module.exports = {
 
 //client post,{
     "client_id": "60d0fe4f5311236168a109ca",
-    "title": "Looking for a Personal Trainer",
-    "description": "I am looking for a personal trainer to help me improve my overall fitness.",
-    "budget": 500,
-    "availability": "Weekends",
-    "location": "San Francisco, CA",
-    "durationOfTraining": "3 months",
-    "fitnessLevel": "Intermediate",
-    "healthConditionsOrInjuries": "None",
-    "email": "client@example.com",
-    "phone": "123-456-7890",
-    "postDate": "2024-06-01T00:00:00.000Z",
-    "expirationDate": "2024-07-01T00:00:00.000Z",
+    
     "comments": [
         {
             "comment": "This sounds interesting!",
@@ -303,51 +292,7 @@ const {
             "__v": 1
         },
         {
-            "_id": "667fefeca319a64e66c8f0b2",
-            "client_id": {
-                "_id": "667f9d1870d3d25fa47db2c6",
-                "fullname": "John Doe",
-                "email": "john.doe@example.com"
-            },
-            "title": "Personal Training Session",
-            "description": "Looking for a personal trainer for weekly sessions.",
-            "budget": 50,
-            "availability": "Weekends",
-            "location": "New York, NY",
-            "durationOfTraining": "1 hour",
-            "fitnessLevel": "Beginner",
-            "healthConditionsOrInjuries": "None",
-            "email": "client@example.com",
-            "phone": "123-456-7890",
-            "postDate": "2024-06-29T00:00:00.000Z",
-            "expirationDate": "2024-07-29T00:00:00.000Z",
-            "comments": [
-                {
-                    "_id": "668004c6e8ca91bbd3ea5e09",
-                    "comment": "testing",
-                    "client_id": {
-                        "_id": "667f9d1870d3d25fa47db2c6",
-                        "fullname": "John Doe",
-                        "email": "john.doe@example.com"
-                    },
-                    "trainer_id": null,
-                    "replies": [
-                        {
-                            "_id": "6680e1cceefd0442de3b62e2",
-                            "reply": "testing",
-                            "client_id": {
-                                "_id": "667f9d1870d3d25fa47db2c6",
-                                "fullname": "John Doe",
-                                "email": "john.doe@example.com"
-                            },
-                            "trainer_id": null
-                        }
-                    ]
-                }
-            ],
-            "createdAt": "2024-06-29T11:28:44.307Z",
-            "updatedAt": "2024-06-29T12:57:42.624Z",
-            "__v": 2
+           
         }
     ]
 }

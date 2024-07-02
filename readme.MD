@@ -26,13 +26,7 @@ node index.js
 
 ## Description
 
-this is backend code for a gym website ,which has three roles admin,client and trainer.
-those who want to join the gym can signup as client and can make a post request to the trainer.
-the trainer can see the list of clients who have made a post request to him/her.
-the admin can verify the trainer and can see the list of trainers who have been verified.
-the client make post request to the trainer and can see the list of trainers who have been verified.
-the both can chat with each other through comments.
-client and trainer can reply to each other comments.
+
 
 1. The backend is divided into three roles: Admin, Client, and Trainer.
 2. The admin can signup, login, and verify the trainer.
@@ -79,20 +73,20 @@ client and trainer can reply to each other comments.
 
 1. ## Admin Signup
 
-1. POST localhost:3000/api/v1/admin/signup
-   request body:
+1. POST
+``localhost:3000/api/v1/admin/create``  
+ request body:
 
 ```json
 {
   "username": "saqib_ullah",
   "email": "saqib@example.com",
   "password": "securePassword123",
-  "role": "admin"
 }
 ```
 
-2. POST localhost:3000/api/v1/admin/login
-
+2. POST 
+``localhost:3000/api/v1/admin/login``
 Request Body:
 
 ```json
@@ -103,6 +97,10 @@ Request Body:
 ```
 
 - when admin is logged in,a jwt token by name `admin_token` is set in cookie which is used to authenticate the admin for further requests.
+
+3. GET `localhost:3000/api/v1/admin/isloggedin`
+
+- this endpoint is used to check if the admin is logged in or not.
 
 ### Client Endpoints
 
@@ -118,8 +116,7 @@ Request Body:
   "password": "securePassword123",
   "gender": "male",
   "date_of_birth": "1990-01-01T00:00:00.000Z",
-  "role": "client",
-  "posts": []
+  
 }
 ```
 
@@ -142,7 +139,7 @@ when client is logged in,a jwt token by name `client_token` is set in cookie whi
 
 - this endpoint is used to logout the client and remove the `jwt token `from the cookie.
 
-4. POST `localhost:3000/api/v1/client/isloggedin`
+4. GET `localhost:3000/api/v1/client/isloggedin`
 
 - this endpoint is used to check if the client is logged in or not.
 - if the client is logged in, it will return the client details otherwise it will return an error message.
@@ -170,7 +167,6 @@ Request Body:
   "availability": "Weekdays 9am-5pm",
   "biography": "Experienced yoga instructor with a passion for holistic wellness.",
   "training_locations": "New York, NY",
-  "isVerified": false
 }
 ```
 
@@ -190,11 +186,11 @@ Request Body:
 
 when trainer is logged in,a jwt token by name `trainer_token` is set in cookie which is used to authenticate the trainer for further requests.
 
-3. POST localhost:3000/api/v1/trainer/logout
+3. POST ``localhost:3000/api/v1/trainer/logout``
 
 - this endpoint is used to logout the trainer and remove the `jwt token `from the cookie.
 
-4. POST
+4. GET
    `localhost:3000/api/v1/trainer/isloggedin`
 
 - this endpoint is used to check if the trainer is logged in or not.
@@ -202,7 +198,7 @@ when trainer is logged in,a jwt token by name `trainer_token` is set in cookie w
 - base on the response, the trainer can be redirected to the login page or the dashboard page.
 - so from frontend, we can check if the trainer is logged in or not and redirect the trainer to the appropriate page.
 
-5. POST `localhost:3000/api/v1/trainer/verify/:id`
+5. PUT `localhost:3000/api/v1/trainer/verify/:id`
 
 - this endpoint is used by the admin to verify the trainer.
 - from admin dashboard this will in turn update the `isVerified` field of the trainer to true.
@@ -224,16 +220,19 @@ fetch(`http://localhost:3000/api/v1/trainer/verify/${id}`, {
 
 - when succussfully verified, the trainer will be shown in the list of trainers and can be assigned to the clients.
 
-6. POST `localhost:3000/api/v1/trainer/delete/:id`
+6. DELETE
+ `localhost:3000/api/v1/trainer/delete/:id`
 
 - This endpoint is used by the admin to delete the trainer from dashboard when the trainer is not qualified or not experienced.
 
-7- POST `localhost:3000/api/v1/trainer/unverified`
+7- GET
+ `localhost:3000/api/v1/trainer/unverified`
 
 - this endpoint is used to get the list of trainers who are `not verified` by the admin.
 - from there admin can `verify` the trainer or `delete` the trainer.
 
-8- POST `localhost:3000/api/v1/trainer`
+8- GET
+ `localhost:3000/api/v1/trainer`
 
 - this endpoint is used to get the list of trainers who are `verified` by the admin.
 

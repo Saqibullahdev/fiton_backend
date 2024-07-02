@@ -143,9 +143,7 @@ const deleteTrainer = async (req, res) => {
 
 const getTrainers = async (req, res) => {
     try {
-        const trainers = await trainerServices.getTrainers(
-          {is_verified: true},
-        );
+        const trainers = await trainerServices.getTrainers();
         res.status(StatusCodes.OK).json({
         
         message: "Trainers fetched successfully",

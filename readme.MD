@@ -102,6 +102,38 @@ Request Body:
 
 - this endpoint is used to check if the admin is logged in or not.
 
+4. GET `localhost:3000/api/v1/admin`
+
+- this endpoint is used to get the admin by id from the database.
+
+5. PATCH `localhost:3000/api/v1/admin/`
+
+- this endpoint is used to update the admin details.
+
+request body:
+
+```json
+{
+  "username": "saqib_ullah",
+  "email": "",
+  "phone_number": "securePassword123",
+  "gender": "",
+  "date_of_birth": "1990-01-01T00:00:00.000Z",
+}
+```
+
+6. PATCH `localhost:3000/api/v1/admin/password`
+
+- this endpoint is used to update the admin password.
+body:
+```json
+{
+  "oldPassword": "password",
+  "newPassword": "newPassword"
+}
+```
+
+
 ### Client Endpoints
 
 1. POST localhost:3000/api/v1/client/create
@@ -141,10 +173,40 @@ when client is logged in,a jwt token by name `client_token` is set in cookie whi
 
 4. GET `localhost:3000/api/v1/client/isloggedin`
 
-- this endpoint is used to check if the client is logged in or not.
-- if the client is logged in, it will return the client details otherwise it will return an error message.
-- base on the response, the client can be redirected to the login page or the dashboard page.
-- so from frontend, we can check if the client is logged in or not and redirect the client to the appropriate page.
+5. Delete `localhost:3000/api/v1/client/delete` 
+
+- this endpoint is used to delete the client from the database.
+- only admin can delete the client from the database.
+
+6. GET `localhost:3000/api/v1/client`
+- this endpoint is used to get the the client by id from the database.
+
+
+7- PATCH `localhost:3000/api/v1/client/`
+
+- this endpoint is used to update the client details.
+body:
+```json
+{
+  "fullname": "osama",
+  "email": "",
+  "phone_number": "123-456-7890",
+  "gender":"",
+  "date_of_birth": "1990-01-01T00:00:00.000Z",	
+}
+```
+
+8- PATCH `localhost:3000/api/v1/client/password`
+
+- this endpoint is used to update the client password.
+
+body:
+```json
+{
+  "oldPassword": "password",
+  "newPassword": "newPassword"
+}
+```
 
 ### Trainer Endpoints
 
@@ -198,7 +260,7 @@ when trainer is logged in,a jwt token by name `trainer_token` is set in cookie w
 - base on the response, the trainer can be redirected to the login page or the dashboard page.
 - so from frontend, we can check if the trainer is logged in or not and redirect the trainer to the appropriate page.
 
-5. PUT `localhost:3000/api/v1/trainer/verify/:id`
+5. PATCH `localhost:3000/api/v1/trainer/verify/:id`
 
 - this endpoint is used by the admin to verify the trainer.
 - from admin dashboard this will in turn update the `isVerified` field of the trainer to true.
@@ -235,6 +297,47 @@ fetch(`http://localhost:3000/api/v1/trainer/verify/${id}`, {
  `localhost:3000/api/v1/trainer`
 
 - this endpoint is used to get the list of trainers who are `verified` by the admin.
+
+9- GET
+ `localhost:3000/api/v1/trainer/me`
+
+- this endpoint is used to get the trainer by id from the database.
+
+10- PATCH
+ `localhost:3000/api/v1/trainer/`	
+
+- this endpoint is used to update the trainer details.
+
+
+body:
+```json
+{
+  "fullname": "osama",
+  "email": "osama@example.com",
+  "phone_number": "123-456-7890",
+  "gender": "male",
+  "date_of_birth": "1985-05-15T00:00:00.000Z",
+  "expertise": "Yoga",
+  "certification": "Certified Yoga Instructor",
+  "experience": "5 years",
+  "availability": "Weekdays 9am-5pm",
+  "biography": "Experienced yoga instructor with a passion for holistic wellness.",
+  "training_locations": "New York, NY",
+}
+```
+
+11- PATCH
+ `localhost:3000/api/v1/trainer/password`
+
+- this endpoint is used to update the trainer password.
+
+body:
+```json
+{
+  "oldPassword": "password",
+  "newPassword": "newPassword"
+}
+```
 
 ### Post Request Endpoints
 
@@ -364,3 +467,23 @@ Request Body:
   "__v": 2
 }
 ```
+
+### Delete the post request
+
+5. DELETE `localhost:000/api/v1/post/delete`
+body:
+```json
+{
+  "postid": "667fefeca319a64e66c8f0b2"
+}
+```
+
+- this endpoint is used by the client to delete the post request.
+- the `id` of the post request is passed in the request body
+
+### Get the list of post requests made by the client
+
+6. GET `localhost:3000/api/v1/post/myposts`
+
+- this endpoint is used to get the list of post requests made by the client.
+- the list of post requests is displayed on the client dashboard

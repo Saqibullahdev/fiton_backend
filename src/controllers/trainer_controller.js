@@ -84,8 +84,8 @@ const loginTrainer = async (req, res) => {
 
 const logoutTrainer = async (req, res) => {
     try {
-        res.clearCookie("trainer_token");
-        res.status(StatusCodes.OK).json({
+        return res.clearCookie("trainer_token")
+        .status(StatusCodes.OK).json({
         message: "Trainer logged out successfully",
         status: "success",
         ok: true,
@@ -185,10 +185,27 @@ const isLoggedIn=async(req,res,next)=>{
   res.status(StatusCodes.OK).
   json({
       message:'trainer is logged in',
-      data:client,
+      data:trainer,
       status:'success',
       ok:true
   })
 }
 
-module.exports = { createTrainer, loginTrainer, logoutTrainer, verifyTrainer, getTrainers ,isLoggedIn,UnVerifiedTrainers,deleteTrainer};
+const getTrainerById=async(req,res)=>{
+  try{
+    const trainer=await trainerServices.getTrainerById(req.trainer.id);
+    res.status(StatusCodes.OK).json({
+      message:'Trainer fetched successfully',
+      data:trainer,
+      status:'success',
+      ok:true
+    })
+  }catch(error){
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error:error.message||'Error fetching trainer',
+      success:false
+    })
+  }
+}
+
+module.exports = { createTrainer, getTrainerById,loginTrainer, logoutTrainer, verifyTrainer, getTrainers ,isLoggedIn,UnVerifiedTrainers,deleteTrainer};

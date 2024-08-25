@@ -22,7 +22,6 @@ const createClient = async (req, res) => {
       ok: true,
     });
   } catch (error) {
-    console.error("Error creating client:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: error.message || "Error creating",
       success: false,
@@ -45,8 +44,7 @@ const loginClient = async (req, res) => {
     const token = await clientServices.LoginClient(email, password);
     res.cookie("client_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure:false,
     });
     res.status(StatusCodes.OK).json({
       message: "Client logged in successfully",
@@ -55,7 +53,6 @@ const loginClient = async (req, res) => {
       ok: true,
     });
   } catch (error) {
-    console.error("Error logging in client:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Error logging in client",
       success: false,
@@ -68,8 +65,8 @@ const loginClient = async (req, res) => {
 
 const logoutClient = async (req, res) => {
   try {
-    res.clearCookie("client_token");
-    res.status(StatusCodes.OK).json({
+   return res.clearCookie("client_token").
+    status(StatusCodes.OK).json({
       message: "Client logged out successfully",
       status: "success",
       ok: true,
@@ -94,9 +91,46 @@ const isLoggedIn=async(req,res,next)=>{
       ok:true
   })
 }
+
+const deleteClient=async(req,res)=>{
+  try{
+    const {client_id}=req.body
+    const client=await clientServices.deleetClient(client_id);
+    res.status(StatusCodes.OK).json({
+      message:'Client deleted successfully',
+      data:client,
+      status:'success',
+      ok:true
+    })
+  }catch(error){
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error:error.message||'Error deleting client',
+      success:false
+    })
+  }
+}
+
+const getClientById=async(req,res)=>{
+  try{
+    const client=await clientServices.getClientById(req.client.id);
+    res.status(StatusCodes.OK).json({
+      message:'Client fetched successfully',
+      data:client,
+      status:'success',
+      ok:true
+    })
+  }catch(error){
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error:error.message||'Error fetching client',
+      success:false
+    })
+  }
+}
 module.exports = {
+  deleteClient,
   createClient,
   loginClient,
   logoutClient,
   isLoggedIn,
+  getClientById
 };

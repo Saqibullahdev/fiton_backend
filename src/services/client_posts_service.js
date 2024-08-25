@@ -50,7 +50,8 @@ class postservices {
   async getAllPosts() {
     try {
         const posts = await post
-        .find()
+        .find().
+        limit(30)
         .sort({ postDate: -1 })
         .populate({
           path: "comments",
@@ -97,6 +98,57 @@ class postservices {
     }
   }
 
+  async getPostByClientId(client_id) {
+    try {
+      const posts = await post
+        .find({ client_id })
+        .sort({ postDate: -1 })
+        .populate({
+          path: "comments",
+          select: "comment client_id trainer_id replies",
+          populate: [
+            {
+              path: "client_id",
+              select: "fullname email",
+            },
+
+            {
+                path: "trainer_id",
+                select: "fullname email",
+            },
+            {
+              path: "replies",
+              select: "reply client_id trainer_id",
+              populate: [
+                {
+                  path: "client_id",
+                  select: "fullname email",
+                },
+                {
+                  path: "trainer_id",
+                  select: "fullname email",
+                },
+              ],
+            },
+          ],
+        })
+        .populate({
+          path: "client_id",
+          select: "email fullname",
+        })
+        .exec();
+
+      if (!posts) {
+        throw new Error("No posts found");
+      }
+      return posts;
+
+    } catch (error) {
+      throw new Error(error.message || "Error occur in fetching posts from post services"); 
+    }
+  }
+        
+
   async createComment(clientid, trainerid, comment, postid) {
     try {
       const Post = await post.findById(postid);
@@ -123,6 +175,18 @@ class postservices {
     }
   }
 
+  async deletePost(postid) {
+    try {
+      const Post = await post.findById(postid);
+      if (!Post) {
+        throw new Error("Post not found");
+      }
+      await Post.remove();
+      return Post;
+    } catch (error) {
+      throw new Error(error.message || "Error deleting post from ");
+    }
+  }
   async createReply(clientid, trainerid, reply, commentid) {
     try {
       const Comment = await commentmodel.findById(commentid);

@@ -97,6 +97,18 @@ class trainerServices{
         }
     }
 
+    async getTrainerById(trainerId) {
+        try {
+            const trainer = await Trainer.findById(trainerId).select('-password');
+            if (!trainer) {
+                throw new Error('Trainer not found');
+            }
+            return trainer;
+        } catch (error) {
+            throw new Error(error.message || 'Error fetching trainer');
+        }
+    }
+    
 
 
 }

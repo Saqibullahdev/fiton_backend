@@ -133,9 +133,48 @@ const reply = async (req, res) => {
   }
 };
 
+
+const deletePost = async (req, res) => {
+  try {
+    const {postid} = req.body;
+    const post = await postServices.deletePost(postid);
+    res.status(200).json({
+      message: "Post deleted successfully",
+      status: "success",
+      ok: true,
+      data: post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || "Error deleting post",
+      success: false,
+    });
+  }
+}
+
+const getPostByClientId=async(req,res)=>{
+  try{
+    const clientid=req.client.id;
+    const posts=await postServices.getPostByClientId(clientid);
+    res.status(200).json({
+      message:'Posts fetched successfully',
+      status:'success',
+      ok:true,
+      data:posts
+    })
+  }catch(error){
+    res.status(500).json({
+      error:error.message||'Error fetching posts',
+      success:false
+    })
+  }
+}
+
 module.exports = {
   createpost,
   comment,
   getAllPosts,
-  reply
+  reply,
+  deletePost,
+  getPostByClientId
 };

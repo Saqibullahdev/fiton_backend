@@ -42,10 +42,35 @@ class clientServices{
         
         }
         catch(error){
-            console.error('Error logging in client:',error);
             throw new Error(error.message || 'Error logging in client');
         }
 
+    }
+
+    async getClientById(id){
+        try{
+            const client=await Client.findById(id).select('-password');
+            if(!client){
+                throw new Error('Client not found');
+            }
+
+            return client;
+        }
+        catch(error){
+            throw new Error(error.message || 'Error fetching client');
+        }
+    }
+    async deleetClient(id){
+        try{
+            const client=await Client.findByIdAndDelete(id);
+            if(!client){
+                throw new Error('Client not found');
+            }
+            return client;
+        }
+        catch(error){
+            throw new Error(error.message || 'Error deleting client from database');
+        }
     }
 }
 

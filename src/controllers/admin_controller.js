@@ -26,8 +26,22 @@ const createAdmin=async(req,res)=>{
 
     
 
-
-
+const getAdminById=async(req,res)=>{
+    try{
+        const admin=await AdminServices.AdminById(req.admin.id);
+        res.status(StatusCodes.OK).json({
+            message:'Admin fetched successfully',
+            data:admin,
+            status:'success',
+            ok:true
+        });
+    }catch(error){
+        res.status(StatusCodes.NOT_FOUND).json({
+            error:error.message||'Error fetching admin',
+            success:false
+        });
+    }
+}
 const loginAdmin=async(req,res)=>{
     try{
         const {email,password}=req.body;
@@ -55,9 +69,8 @@ const loginAdmin=async(req,res)=>{
             ok:true
         });
     }catch(error){
-        console.error('Error logging in admin:',error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            error:'Error logging in admin',
+            error:error.message||'Error logging in admin',
             success:false
         });
     }
@@ -96,5 +109,6 @@ module.exports={
     createAdmin,
     loginAdmin,
     logoutAdmin,
-    isLoggedIn
+    isLoggedIn,
+    getAdminById
 }

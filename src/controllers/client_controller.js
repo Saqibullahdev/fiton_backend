@@ -126,11 +126,51 @@ const getClientById=async(req,res)=>{
     })
   }
 }
+
+const updateClient=async(req,res)=>{
+  try{
+    const {fullname,email,phone_number,date_of_birth,gender}= req.body;
+    const client=await clientServices.updateClient(req.client.id,fullname,email,phone_number,date_of_birth,gender); 
+    res.status(StatusCodes.OK).json({
+      message:'Client updated successfully',
+      data:client,
+      status:'success',
+      ok:true
+    })
+  }
+  catch(error){
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error:error.message||'Error updating client',
+      success:false
+    })
+  }
+}
+
+const ChangePassword=async(req,res)=>{
+  try{
+    const {old_password,new_password}=req.body;
+    const client=await clientServices.ChangePassword(req.client.id,old_password,new_password);
+    res.status(StatusCodes.OK).json({
+      message:'Password changed successfully',
+      data:client,
+      status:'success',
+      ok:true
+    })
+  }catch(error){
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error:error.message||'Error changing password',
+      success:false
+    })
+  }
+}
+
 module.exports = {
   deleteClient,
   createClient,
   loginClient,
   logoutClient,
   isLoggedIn,
-  getClientById
+  getClientById,
+  updateClient,
+  ChangePassword
 };

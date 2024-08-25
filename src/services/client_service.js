@@ -72,6 +72,51 @@ class clientServices{
             throw new Error(error.message || 'Error deleting client from database');
         }
     }
+
+    async updateClient(id,fullname,email,phone_number,date_of_birth,gender){
+        try{
+            const client=await Client.findById(id);
+            if(!client){
+                throw new Error('Client not found');
+            }
+            const UpdatedClient={
+                fullname:fullname||client.fullname,
+                email:email||client.email,
+                phone_number:phone_number||client.phone_number,
+                gender:gender||client,
+                date_of_birth:date_of_birth||client.date_of_birth
+            }
+            const response=await Client.findByIdAndUpdate(id,UpdatedClient,{new:true});
+            if(!response){
+                throw new Error('Error updating client');
+            }
+            return response;
+        }
+        catch(error){
+            throw new Error(error.message || 'Error updating client');
+    }
+}
+
+async ChangePassword(id,oldPassword,newPassword){
+    try{
+        const client=await Client.findById(id);
+        if(!client){
+            throw new Error('client not found');
+        }
+        const isValidPassword=await argon2.verify(client.password,oldPassword);
+        if(!isValidPassword){
+            throw new Error('your old password is incorrect');
+        }
+        const hashedPassword=await hashPassword(newPassword);
+        const updateclient=await Client.findByIdAndUpdate(id,{password:hashedPassword},{new:true});
+        if(!updateclient){
+            throw new Error('Error occur while updating password');
+        }
+        return updateclient;
+    }catch(error){
+        throw new Error(error.message||'Error changing password');
+    }
+}
 }
 
 module.exports=new clientServices();

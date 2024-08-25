@@ -100,6 +100,8 @@ class postservices {
 
   async getPostByClientId(client_id) {
     try {
+      
+      console.log(await post.find({ client_id }));
       const posts = await post
         .find({ client_id })
         .sort({ postDate: -1 })
@@ -138,7 +140,7 @@ class postservices {
         })
         .exec();
 
-      if (!posts) {
+      if (posts.length === 0) {
         throw new Error("No posts found");
       }
       return posts;

@@ -15,7 +15,9 @@ const {
   isLoggedIn,
   UnVerifiedTrainers,
   deleteTrainer,
-  getTrainerById
+  getTrainerById,
+  updateTrainer,
+  ChangePassword
 } = require("../controllers/trainer_controller");
 
 trainerRouter.post("/login", loginTrainer);
@@ -26,5 +28,7 @@ trainerRouter.get("/", getTrainers);
 trainerRouter.get("/isloggedin", isTrainer, isLoggedIn);
 trainerRouter.get("/unverified", isAdmin, UnVerifiedTrainers);
 trainerRouter.delete("/delete/:id", isAdmin, deleteTrainer);
-trainerRouter.get("/me", getTrainerById);
+trainerRouter.get("/me", isTrainer,getTrainerById);
+trainerRouter.patch("/", isTrainer, updateTrainer);
+trainerRouter.patch("/password", isTrainer, ChangePassword);
 module.exports = trainerRouter;

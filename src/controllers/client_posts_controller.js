@@ -156,6 +156,8 @@ const getPostByClientId=async(req,res)=>{
   try{
     const clientid=req.client.id;
     const posts=await postServices.getPostByClientId(clientid);
+    console.log(clientid);
+    console.log(posts);
     res.status(200).json({
       message:'Posts fetched successfully',
       status:'success',

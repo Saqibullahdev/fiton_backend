@@ -5,7 +5,7 @@ const connectDB = require('./config/dbconfig');
 const apiRouter = require('./routes/index.js');
 const cors=require('cors');
 
-// Connect to MongoDB
+// Connect to MongoDB database
 connectDB();
 
 // Middleware

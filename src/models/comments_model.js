@@ -22,7 +22,12 @@ const commentsSchema = new Schema(
         type: [Schema.Types.ObjectId],
         ref: "CommentReply",
         default: [],
-      }
+      },
+      commentdate: {
+        type: Date,
+        default: Date.now,
+      },
+
     },
     { timestamps: true }
   );

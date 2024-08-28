@@ -1,5 +1,5 @@
 const Client=require('../models/client_model')
-const {hashPassword}=require('../helpers/hashpassword')
+const {hashPassword,verifyPassword}=require('../helpers/hashpassword')
 const {generateToken}=require('../helpers/jwtToken')
 const argon2=require('argon2');
 
@@ -19,33 +19,45 @@ class clientServices{
             await client.save();
             return client;
         }catch(error){
-            console.error('Error creating client ->:',error.message);
             throw new Error(error.message || 'Error creating client');
         }
     }
 
-    async LoginClient(email,password){
-        try{
-            const client=await Client.findOne({email});
-            if(!client){
-                throw new Error('Client not found');
+    async LoginClient(email,password) {
+        try {
+            // Find the client by email
+            const client = await Client.findOne({ email });
+            if (!client) {
+                throw new Error('Client not found with the provided email');
             }
-            const isValidPassword=await argon2.verify(client.password,password);
-            if(!isValidPassword){
-                throw new Error('Invalid password');
+    
+            // Verify the password
+            const isValidPassword = await verifyPassword(password, client.password);
+            if (!isValidPassword) {
+                throw new Error('Invalid password! Please check your password');
             }
-            const token=generateToken({id:client._id,email:client.email,role:'client',username:client.fullname});
-            if(!token){
-                throw new Error('Error generating token');
+    
+            // Generate JWT token
+            const token = generateToken({ 
+                id: client._id, 
+                email: client.email, 
+                role: 'client', 
+                username: client.fullname 
+            });
+    
+            if (!token) {
+                throw new Error('Error generating authentication token');
             }
+    
+            // Return token and client information (excluding password)
             return token;
-        
-        }
-        catch(error){
+    
+        } catch (error) {
             throw new Error(error.message || 'Error logging in client');
         }
-
+    
     }
+    
 
     async getClientById(id){
         try{
@@ -103,7 +115,7 @@ async ChangePassword(id,oldPassword,newPassword){
         if(!client){
             throw new Error('client not found');
         }
-        const isValidPassword=await argon2.verify(client.password,oldPassword);
+        const isValidPassword=await verifyPassword(oldPassword,client.password);
         if(!isValidPassword){
             throw new Error('your old password is incorrect');
         }

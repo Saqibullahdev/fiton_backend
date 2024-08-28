@@ -214,14 +214,14 @@ const updateTrainer = async (req, res) => {
       biography,
       training_locations,
     } = req.body;
-
+    console.log("request pass to service");
+    console.log("trainer id", req.trainer.id);
     const trainer = await trainerServices.updateTrainer(
       req.trainer.id,
       fullname,
       email,
       phone_number,
       gender,
-      location,
       date_of_birth,
       expertise,
       certification,
@@ -231,6 +231,7 @@ const updateTrainer = async (req, res) => {
       training_locations
     );
 
+console.log("response from service", trainer);
     res.status(StatusCodes.OK).json({
       message: "Trainer updated successfully",
       data: trainer,

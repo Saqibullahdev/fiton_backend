@@ -9,7 +9,6 @@ const createpost = async (req, res) => {
       message: "Post created successfully",
       status: "success",
       ok: true,
-      data: post,
     });
   } catch (error) {
     res.status(500).json({
@@ -142,7 +141,6 @@ const deletePost = async (req, res) => {
       message: "Post deleted successfully",
       status: "success",
       ok: true,
-      data: post,
     });
   } catch (error) {
     res.status(500).json({
@@ -172,11 +170,47 @@ const getPostByClientId=async(req,res)=>{
   }
 }
 
+const makePostasReadByAdmin=async(req,res)=>{
+  try{
+    const postid=req.params.id;
+    const post=await postServices.makePostAsReadByAdmin(postid);
+    res.status(200).json({
+      message:'Post marked as read By Admin',
+      status:'success',
+      ok:true,
+    })
+  }catch(error){
+    res.status(500).json({
+      error:error.message||'Error marking post as read',
+      success:false
+    })
+  }
+}
+
+const makePostasReadByTrainer=async(req,res)=>{
+  try{
+    const postid=req.params.id;
+    const post=await postServices.makePostAsReadByTrainer(postid);
+    res.status(200).json({
+      message:'Post marked as read By Trainer',
+      status:'success',
+      ok:true,
+    })
+  }catch(error){
+    res.status(500).json({
+      error:error.message||'Error marking post as read',
+      success:false
+    })
+  }
+}
+
 module.exports = {
   createpost,
   comment,
   getAllPosts,
   reply,
   deletePost,
-  getPostByClientId
+  getPostByClientId,
+  makePostasReadByAdmin,
+  makePostasReadByTrainer
 };

@@ -52,10 +52,10 @@ class postservices {
         const posts = await post
         .find().
         limit(30)
-        .sort({ postDate: -1 })
+        .sort({ createdAt: -1 })
         .populate({
           path: "comments",
-          select: "comment client_id trainer_id replies",
+          select: "comment client_id trainer_id replies createdAt",
           populate: [
             {
               path: "client_id",
@@ -68,7 +68,7 @@ class postservices {
             },
             {
               path: "replies",
-              select: "reply client_id trainer_id",
+              select: "reply client_id trainer_id createdAt",
               populate: [
                 {
                   path: "client_id",
@@ -107,7 +107,7 @@ class postservices {
         .sort({ postDate: -1 })
         .populate({
           path: "comments",
-          select: "comment client_id trainer_id replies",
+          select: "comment client_id trainer_id replies createdAt",
           populate: [
             {
               path: "client_id",
@@ -120,7 +120,7 @@ class postservices {
             },
             {
               path: "replies",
-              select: "reply client_id trainer_id",
+              select: "reply client_id trainer_id createdAt",
               populate: [
                 {
                   path: "client_id",
@@ -158,7 +158,7 @@ class postservices {
         throw new Error("Post not found");
       }
 
-      const newCommentData = { comment };
+      const newCommentData = { comment,commentdate:Date.now() };
 
       if (clientid) {
         newCommentData.client_id = clientid;
@@ -209,6 +209,34 @@ class postservices {
       return Comment;
     } catch (error) {
       throw new Error(error.message || "Error creating reply");
+    }
+  }
+
+  async makePostAsReadByAdmin(postid) {
+    try {
+      const Post = await post.findById(postid);
+      if (!Post) {
+        throw new Error("Post not found");
+      }
+      Post.isReadByAdmin = true;
+      await Post.save();
+      return Post;
+    } catch (error) {
+      throw new Error(error.message || "Error marking post as read");
+    }
+  }
+
+  async makePostAsReadByTrainer(postid) {
+    try {
+      const Post = await post.findById(postid);
+      if (!Post) {
+        throw new Error("Post not found");
+      }
+      Post.isReadByTrainer = true;
+      await Post.save();
+      return Post;
+    } catch (error) {
+      throw new Error(error.message || "Error marking post as read");
     }
   }
 }

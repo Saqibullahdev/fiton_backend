@@ -3,6 +3,7 @@ const BadRequest = require("../errors/badrequesterror");
 const errorResponse = require("../utils/error_response");
 
 function createTrainerValidator(req, res, next) {
+    console.log("Request body", req.body);
     if (!req.body.fullname) {
         return res
                 .status(StatusCodes.BAD_REQUEST)

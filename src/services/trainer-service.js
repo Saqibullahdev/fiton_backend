@@ -1,7 +1,6 @@
 const Trainer = require("../models/trainer_model");
-const { hashPassword } = require("../helpers/hashpassword");
+const { hashPassword ,verifyPassword} = require("../helpers/hashpassword");
 const { generateToken } = require("../helpers/jwtToken");
-const argon2 = require("argon2");
 
 class trainerServices {
   async createTrainer(
@@ -49,7 +48,7 @@ class trainerServices {
       if (!trainer) {
         throw new Error("Trainer not found");
       }
-      const isValidPassword = await argon2.verify(trainer.password, password);
+      const isValidPassword = await verifyPassword(password, trainer.password);
       if (!isValidPassword) {
         throw new Error("Invalid password");
       }
@@ -163,11 +162,10 @@ class trainerServices {
           new: true,
         }
       );
-        if (!response) {
-            throw new Error("Error updating trainer");
-        }
-        return response;
-
+      if (!response) {
+        throw new Error("Error updating trainer");
+      }
+      return response;
     } catch (error) {
       throw new Error(error.message || "Error updating trainer");
     }
@@ -179,7 +177,10 @@ class trainerServices {
       if (!trainer) {
         throw new Error("Trainer not found for respective id");
       }
-      const isValidPassword = await argon2.verify(trainer.password, oldPassword);
+      const isValidPassword = await verifyPassword(
+        oldPassword,
+        trainer.password
+      );
       if (!isValidPassword) {
         throw new Error("Invalid password ,old password is incorrect");
       }
@@ -188,7 +189,9 @@ class trainerServices {
       await trainer.save();
       return trainer;
     } catch (error) {
-      throw new Error(error.message || "Error changing password...Please try again");
+      throw new Error(
+        error.message || "Error changing password...Please try again"
+      );
     }
   }
 }

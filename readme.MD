@@ -487,3 +487,17 @@ body:
 
 - this endpoint is used to get the list of post requests made by the client.
 - the list of post requests is displayed on the client dashboard
+
+7- PATCH `localhost:3000/api/v1/post/admin/:id`
+
+- this endpoint is used to update the post and make `isReadbyAdmin` to true.
+- when the admin reads the post, the `isReadbyAdmin` field of the post request is updated to true.
+- On frontend when the admin see the post ,the post will be marked as read by admin. and will no longer
+- marked as unread.
+
+8- PATCH `localhost:3000/api/v1/post/trainer/:id`
+
+- this endpoint is used to update the post and make `isReadbyTrainer` to true.
+- when the trainer reads the post, the `isReadbyTrainer` field of the post request is updated to true.
+- On frontend when the trainer see the post ,the post will be marked as read by trainer. and will no longer
+- marked as unread.

@@ -64,7 +64,7 @@ const trainerSchema = new Schema({
 
     training_locations: {
         type: String,
-        required: true
+        required: false
     },
 
     isVerified: {

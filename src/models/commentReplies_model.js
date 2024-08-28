@@ -16,6 +16,11 @@ const commentreplySchema = new Schema(
         ref: "Trainer",
         default: null,
       },
+
+      Date: {
+        type: Date,
+        default: Date.now,
+      },
     },
     { timestamps: true }
   );

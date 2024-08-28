@@ -1,4 +1,4 @@
-const {hashPassword}=require('../helpers/hashpassword');
+const {hashPassword,verifyPassword}=require('../helpers/hashpassword');
 const Admin=require('../models/admin_model');
 const {generateToken}=require('../helpers/jwtToken');
 const argon2 = require('argon2');
@@ -28,6 +28,7 @@ class adminServices{
     async AdminById(id){
         try{
             const admin=await Admin.findById(id).select('-password');
+            console.log('Admin:',admin);
             if(!admin){
                 throw new Error('Admin not found');
             }
@@ -43,7 +44,7 @@ class adminServices{
             if(!admin){
                 throw new Error('Admin not found');
             }
-            const isValidPassword=await argon2.verify(admin.password,password);
+            const isValidPassword=await verifyPassword(password,admin.password);
             if(!isValidPassword){
                 throw new Error('Invalid password');
             }
@@ -91,7 +92,7 @@ class adminServices{
             if(!admin){
                 throw new Error('Admin not found');
             }
-            const isValidPassword=await argon2.verify(admin.password,oldPassword);
+            const isValidPassword=await verifyPassword(oldPassword,admin.password);
             if(!isValidPassword){
                 throw new Error('your old password is incorrect');
             }

@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 app.use(cors({
   origin: 'http://localhost:3000',
-  credentials: true
+  credentials: true,
 }));
 // Use API routes
 app.use('/api/v1', apiRouter);

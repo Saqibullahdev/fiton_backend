@@ -64,7 +64,15 @@ const postSchema = new Schema(
       type:[Schema.Types.ObjectId],
       ref: "Comment",
       default: null,
-    }
+    },
+    isReadByAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    isReadByTrainer: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

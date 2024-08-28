@@ -29,6 +29,6 @@ trainerRouter.get("/isloggedin", isTrainer, isLoggedIn);
 trainerRouter.get("/unverified", isAdmin, UnVerifiedTrainers);
 trainerRouter.delete("/delete/:id", isAdmin, deleteTrainer);
 trainerRouter.get("/me", isTrainer,getTrainerById);
-trainerRouter.patch("/", isTrainer, updateTrainer);
+trainerRouter.patch("/",isTrainer, updateTrainer);
 trainerRouter.patch("/password", isTrainer, ChangePassword);
 module.exports = trainerRouter;

@@ -4,7 +4,7 @@ const UnauthorizedError = require("../errors/unathorizederror");
 const { verifyToken } = require("../helpers/verifytoken");
 
 const isTrainer = function (req, res, next) {
-    console.log(req.cookies);
+    console.log("isTrainer middleware");
     if(!req.cookies || !req.cookies.trainer_token) {
         return res
                 .status(StatusCodes.UNAUTHORIZED)
@@ -28,7 +28,7 @@ const isTrainer = function (req, res, next) {
     // modify my request object
 
     req.trainer = { email: decodedToken.email, id: decodedToken.id,role: decodedToken.role, username: decodedToken.username};
-
+    console.log("decoded token", decodedToken);
     next();
 }
 

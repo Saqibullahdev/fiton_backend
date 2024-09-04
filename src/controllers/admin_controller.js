@@ -40,7 +40,10 @@ const getAdminById = async (req, res) => {
 };
 const loginAdmin = async (req, res) => {
   try {
+    console.log("Logging in admin");
     const { email, password } = req.body;
+    console.log("Email:", email);
+    console.log("Password:", password);
     if (!email || !password) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         error: "Please provide email and password",

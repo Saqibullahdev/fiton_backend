@@ -3,7 +3,8 @@ function errorResponse(reasonPhrase, error) {
             success: false,
             data: {},
             message: reasonPhrase,
-            error: error
+            error: error,
+            ok: false,
         }
 }
 

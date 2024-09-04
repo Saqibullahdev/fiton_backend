@@ -1,6 +1,11 @@
 const Trainer = require("../models/trainer_model");
 const { hashPassword ,verifyPassword} = require("../helpers/hashpassword");
+const cloudinary = require("cloudinary").v2;
 const { generateToken } = require("../helpers/jwtToken");
+const {uploadFileToCloudinary}=require('../utils/UploadToCloudnary')
+const isFileTypeSupported=require('../utils/isFileTypeSupported')
+
+
 
 class trainerServices {
   async createTrainer(
@@ -15,9 +20,21 @@ class trainerServices {
     experience,
     availability,
     biography,
-    training_locations
+    training_locations,
+    req
   ) {
     try {
+      const file=req.files.file;
+      const filetype=file.name.split('.')[1].toLowerCase();
+      const isSupported=isFileTypeSupported(filetype);
+      if(!isSupported){
+        throw new Error('File type not supported');
+      }
+      const uploadedFile=await uploadFileToCloudinary(file,10);
+      if(!uploadedFile){
+        throw new Error('Error uploading file to cloudnary');
+      }
+
       const hashedPassword = await hashPassword(password);
       const trainer = new Trainer({
         fullname,
@@ -34,6 +51,7 @@ class trainerServices {
         biography,
         training_locations,
         isVerified: false,
+        imageUrl:uploadedFile.secure_url,
       });
       await trainer.save();
       return trainer;
@@ -57,6 +75,7 @@ class trainerServices {
         email: trainer.email,
         role: "trainer",
         username: trainer.fullname,
+        isVerified: trainer.isVerified,
       });
       if (!token) {
         throw new Error("Error generating token");
@@ -193,6 +212,25 @@ class trainerServices {
         error.message || "Error changing password...Please try again"
       );
     }
+  }
+
+  async fileUploadtoCloudnary(req){
+    const file=req.files.file;
+    const filetype=file.name.split('.')[1].toLowerCase();
+    const isSupported=isFileTypeSupported(filetype);
+    if(!isSupported){
+      throw new Error('File type not supported');
+    }
+  
+    try{
+        const uploadedFile=await uploadFileToCloudinary(file,10);
+        return uploadedFile;      
+      
+    }
+    catch(error){
+      throw new Error(error.message || 'Error uploading file to cloudnary');
+    }
+  
   }
 }
 

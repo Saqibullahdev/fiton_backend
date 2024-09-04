@@ -30,7 +30,8 @@ const createTrainer = async (req, res) => {
       experience,
       availability,
       biography,
-      training_locations
+      training_locations,
+      req
     );
 
     res.status(StatusCodes.CREATED).json({
@@ -268,6 +269,24 @@ const ChangePassword = async (req, res) => {
   }
 }
 
+const fileUploadtoCloudnary=async(req,res)=>{
+  try {
+    const response=await trainerServices.fileUploadtoCloudnary(req);
+  res.status(StatusCodes.OK).json({
+    message: "File uploaded successfully",
+    data: response,
+    status: "success",
+    ok: true,
+  });
+  
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: error.message || "Error uploading file",
+      success: false,
+    });
+    
+  }
+}
 module.exports = {
   createTrainer,
   getTrainerById,
@@ -280,4 +299,6 @@ module.exports = {
   deleteTrainer,
   updateTrainer,
   ChangePassword,
+  fileUploadtoCloudnary,
+  
 };

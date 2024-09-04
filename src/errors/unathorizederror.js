@@ -8,6 +8,7 @@ class UnauthorizedError extends Error {
         this.reason = ReasonPhrases.UNAUTHORIZED;
         this.errorMessage = errorMessage;
         this.name = "UnauthorizedError";
+        this.ok=false;
     }
 }
 

@@ -204,6 +204,58 @@ const makePostasReadByTrainer=async(req,res)=>{
   }
 }
 
+const approvePost=async(req,res)=>{
+  try{
+    const postid=req.params.id;
+    const post=await postServices.approvePost(postid);
+    res.status(200).json({
+      message:'Post approved',
+      status:'success',
+      ok:true,
+    })
+  }catch(error){
+    res.status(500).json({
+      error:error.message||'Error approving post',
+      success:false
+    })
+  }
+}
+
+const getUnApprovedPosts=async(req,res)=>{
+  try{
+    const posts=await postServices.getUnApprovedPosts();
+    res.status(200).json({
+      message:'Posts fetched successfully',
+      status:'success',
+      ok:true,
+      data:posts
+    })
+  }catch(error){
+    res.status(500).json({
+      error:error.message||'Error fetching posts',
+      success:false,
+      ok:false
+    })
+  }
+}
+
+const removePost=async(req,res)=>{
+  try{
+    const postid=req.body.postid;
+    const post=await postServices.deletePost(postid);
+    res.status(200).json({
+      message:'Post deleted successfully',
+      status:'success',
+      ok:true,
+    })
+  }catch(error){
+    res.status(500).json({
+      error:error.message||'Error deleting post',
+      success:false
+    })
+  }
+}
+
 module.exports = {
   createpost,
   comment,
@@ -212,5 +264,8 @@ module.exports = {
   deletePost,
   getPostByClientId,
   makePostasReadByAdmin,
-  makePostasReadByTrainer
+  makePostasReadByTrainer,
+  approvePost,
+  getUnApprovedPosts,
+  removePost
 };

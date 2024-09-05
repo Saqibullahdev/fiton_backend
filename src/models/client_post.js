@@ -47,6 +47,11 @@ const postSchema = new Schema(
       required: true,
       match: [/.+\@.+\..+/, "Please enter a valid email address"],
     },
+    
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
     phone: {
       type: String,
       required: true,

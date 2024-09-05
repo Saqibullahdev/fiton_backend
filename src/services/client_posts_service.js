@@ -50,7 +50,7 @@ class postservices {
   async getAllPosts() {
     try {
         const posts = await post
-        .find().
+        .find({isApproved:true}).
         limit(30)
         .sort({ createdAt: -1 })
         .populate({
@@ -89,9 +89,10 @@ class postservices {
         .exec();
       
 
-      if (!posts) {
+      if (posts.length === 0) {
         throw new Error("No posts found");
       }
+      console.log(posts);
       return posts;
     } catch (error) {
       throw new Error(error.message || "Error fetching posts");
@@ -238,6 +239,35 @@ class postservices {
     } catch (error) {
       throw new Error(error.message || "Error marking post as read");
     }
+  }
+
+  async approvePost(postid) {
+    try {
+      const Post = await post.findById(postid);
+      if (!Post) {
+        throw new Error("Post not found");
+      }
+      Post.isApproved = true;
+      await Post.save();
+      return Post;
+    } catch (error) {
+      throw new Error(error.message || "Error approving post");
+    }
+  }
+
+  async getUnApprovedPosts() {
+    try {
+      const posts = await post
+        .find({ isApproved: false })
+        .sort({ createdAt: -1 })
+
+        if (posts.length === 0) {
+          throw new Error("No posts found");
+        }
+        return posts;
+      } catch (error) {
+        throw new Error(error.message || "Error fetching posts");
+      }
   }
 }
 

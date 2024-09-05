@@ -415,7 +415,7 @@ Request Body:
 
 - this endpoint is used to get the list of post requests made by the clients.
 - the list of post requests is displayed on the trainer dashboard.
-
+- it will show only those post `approved` by the admin.
 ### response of this endpoint looks like this:
 
 ```json
@@ -430,6 +430,7 @@ Request Body:
   "description": "Looking for a personal trainer for weekly sessions.",
   "budget": 50,
   "availability": "Weekends",
+  "isApproved": false,
   "location": "New York, NY",
   "durationOfTraining": "1 hour",
   "fitnessLevel": "Beginner",
@@ -501,3 +502,20 @@ body:
 - when the trainer reads the post, the `isReadbyTrainer` field of the post request is updated to true.
 - On frontend when the trainer see the post ,the post will be marked as read by trainer. and will no longer
 - marked as unread.
+
+9- GET `localhost:3000/api/v1/post/unapproved`
+
+- this endpoint is used to get the list of post requests which are `not approved` by the admin.
+- from there admin can `approve` the post request or `delete` the post request.
+
+10- PATCH `localhost:3000/api/v1/post/approve/:id`
+
+- this endpoint is used by the admin to approve the post request.
+- from admin dashboard this will in turn update the `isApproved` field of the post request to true.
+- the admin click from frontend click on approve and `id` of that post request is passed to this endpoint.
+
+11- DELETE `localhost:3000/api/v1/post/delete/:id`
+
+- this endpoint is used by the admin to ``delete`` the post request from dashboard when the post request is not relevant or not appropriate.
+
+

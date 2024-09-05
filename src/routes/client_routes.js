@@ -23,7 +23,7 @@ clientRouter.post("/logout", logoutClient);
 clientRouter.get("/isloggedin", isClient, isLoggedIn);
 clientRouter.delete("/delete", isAdmin, deleteClient);
 clientRouter.get("/", isClient, getClientById);
-clientRouter.patch("/:id", isClient, updateClient);
+clientRouter.patch("/", isClient, updateClient);
 clientRouter.patch("/password", isClient, ChangePassword);
 
 module.exports = clientRouter;

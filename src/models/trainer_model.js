@@ -74,7 +74,15 @@ const trainerSchema = new Schema({
     imageUrl: {
         type: String,
         required: false
-    }
+    },
+    otp:{
+        type: String,
+        default: null
+    },
+    otpExpires:{
+        type: Date,
+        default: null
+    },
 
 },{timestamps: true});
 

@@ -165,7 +165,9 @@ const getPostByClientId=async(req,res)=>{
   }catch(error){
     res.status(500).json({
       error:error.message||'Error fetching posts',
-      success:false
+      success:false,
+      ok:false,
+      data:[]
     })
   }
 }
@@ -234,14 +236,15 @@ const getUnApprovedPosts=async(req,res)=>{
     res.status(500).json({
       error:error.message||'Error fetching posts',
       success:false,
-      ok:false
+      ok:false,
+      data:[]
     })
   }
 }
 
 const removePost=async(req,res)=>{
   try{
-    const postid=req.body.postid;
+    const postid=req.params.id;
     const post=await postServices.deletePost(postid);
     res.status(200).json({
       message:'Post deleted successfully',

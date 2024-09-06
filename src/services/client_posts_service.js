@@ -269,6 +269,19 @@ class postservices {
         throw new Error(error.message || "Error fetching posts");
       }
   }
+
+  async deletePost(postid) {
+    try {
+      const Post = await post.findById(postid);
+      if (!Post) {
+        throw new Error("Post not found");
+      }
+      await Post.remove();
+      return Post;
+    } catch (error) {
+      throw new Error(error.message || "Error deleting post");
+    }
+  }
 }
 
 const postServices = new postservices();

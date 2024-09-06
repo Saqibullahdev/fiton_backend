@@ -1,6 +1,5 @@
 const Trainer = require("../models/trainer_model");
 const { hashPassword ,verifyPassword} = require("../helpers/hashpassword");
-const cloudinary = require("cloudinary").v2;
 const { generateToken } = require("../helpers/jwtToken");
 const {uploadFileToCloudinary}=require('../utils/UploadToCloudnary')
 const isFileTypeSupported=require('../utils/isFileTypeSupported')
@@ -231,6 +230,49 @@ class trainerServices {
       throw new Error(error.message || 'Error uploading file to cloudnary');
     }
   
+  }
+
+  async sendOTP(email) {
+    try {
+      const trainer = await Trainer.findOne({ email });
+      if (!trainer) {
+        throw new Error("trainer not found with the provided email");
+      }
+      const otp = generateOTP();
+      const subject = "Password Reset OTP";
+      const message = `Your OTP is ${otp}`;
+      trainer.otp = otp;
+      trainer.otpExpires = Date.now() + 360000; //mean current time + 360000ms = 6 minutes
+      await trainer.save();
+
+      const response = await sendEmail(email, subject, message);
+      if (!response) {
+        throw new Error("Error sending OTP to your email");
+      }
+      return otp;
+    } catch (error) {
+      throw new Error(error.message || "Error sending OTP to your email");
+    }
+  }
+
+  async verifyOTP(email, otp, newPassword) {
+    try {
+      const trainer = await Trainer.findOne({ email });
+      if (!trainer) {
+        throw new Error("trainer not found with the provided email");
+      }
+      if (otp !== trainer.otp || Date.now() > trainer.otpExpires) {
+        throw new Error("Invalid OTP");
+      }
+      const hashedPassword = await hashPassword(newPassword);
+      trainer.password = hashedPassword;
+      trainer.otp = null;
+      trainer.otpExpires = null;
+      await trainer.save();
+      return trainer;
+    } catch (error) {
+      throw new Error(error.message || "Error verifying OTP");
+    }
   }
 }
 

@@ -36,6 +36,14 @@ const clientSchema = new Schema({
         type: String,
         default: 'client'
     },
+    otp:{
+        type: String,
+        default: null
+    },
+    otpExpires:{
+        type: Date,
+        default: null
+    },
 
     posts: [{
         type: Schema.Types.ObjectId,

@@ -287,6 +287,45 @@ const fileUploadtoCloudnary=async(req,res)=>{
     
   }
 }
+
+const sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const otp = await trainerServices.sendOtp(email);
+    res.status(StatusCodes.OK).json({
+      message: "OTP sent successfully",
+      status: "success",
+      ok: true,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: error.message || "Error sending OTP",
+      success: false,
+      data: [],
+      ok: false,
+    });
+  }
+}
+
+const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp,newPassword } = req.body;
+    const trainer = await trainerServices.verifyOTP(email, otp, newPassword);
+    res.status(StatusCodes.OK).json({
+      message: "OTP verified successfully",
+      data: trainer,
+      status: "success",
+      ok: true,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: error.message || "Error verifying OTP",
+      success: false,
+      data: [],
+      ok: false,
+    });
+  }
+}
 module.exports = {
   createTrainer,
   getTrainerById,
@@ -300,5 +339,7 @@ module.exports = {
   updateTrainer,
   ChangePassword,
   fileUploadtoCloudnary,
+  sendOtp,
+  verifyOtp
   
 };

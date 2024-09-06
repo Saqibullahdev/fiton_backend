@@ -18,7 +18,9 @@ const {
   getTrainerById,
   updateTrainer,
   ChangePassword,
-  fileUploadtoCloudnary
+  fileUploadtoCloudnary,
+  sendOtp,
+  verifyOtp
 } = require("../controllers/trainer_controller");
 
 trainerRouter.post("/login", loginTrainer);
@@ -33,4 +35,6 @@ trainerRouter.get("/me", isTrainer,getTrainerById);
 trainerRouter.patch("/",isTrainer, updateTrainer);
 trainerRouter.patch("/password", isTrainer, ChangePassword);
 trainerRouter.post("/upload",fileUploadtoCloudnary)
+trainerRouter.patch("/sendotp", sendOtp);
+trainerRouter.patch("/verifyotp", verifyOtp);
 module.exports = trainerRouter;

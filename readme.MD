@@ -207,7 +207,30 @@ body:
   "newPassword": "newPassword"
 }
 ```
+9- PATCH `localhost:3000/api/v1/client/sendotp`
+body:
+```json
+{
+  "email": ""
+  
+  }
+```
 
+- this endpoint is used to send the otp to the client email.
+- the client will receive the otp on the email and will be used to reset the password.
+
+10- PATCH `localhost:3000/api/v1/client/varifyotp`
+body:
+```json
+{
+  "otp": "",
+  "newPassword": "newPassword",
+  "email": " ",
+  
+  }
+``` 
+
+- this endpoint is used to verify the otp and reset the password of the client.
 ### Trainer Endpoints
 
 1. POST `localhost:3000/api/v1/trainer/create`
@@ -338,6 +361,34 @@ body:
   "newPassword": "newPassword"
 }
 ```
+12- PATCH
+ `localhost:3000/api/v1/trainer/sendotp`
+
+body: 
+```json
+{
+  "email": ""
+  
+  }
+```
+- this endpoint is used to send the otp to the trainer email.
+- the trainer will receive the otp on the email and will be used to reset the password.
+
+13- PATCH
+ `localhost:3000/api/v1/trainer/varifyotp`
+
+body:
+```json
+{
+  "otp": "",
+  "newPassword": "newPassword",
+  "email": " ",
+  
+  }
+```
+
+- this endpoint is used to verify the otp and reset the password of the trainer.
+
 
 ### Post Request Endpoints
 

@@ -169,6 +169,45 @@ const ChangePassword = async (req, res) => {
   }
 };
 
+const sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const otp = await clientServices.sendOtp(email);
+    res.status(StatusCodes.OK).json({
+      message: "OTP sent successfully",
+      status: "success",
+      ok: true,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: error.message || "Error sending OTP",
+      success: false,
+      data: [],
+      ok: false,
+    });
+  }
+}
+
+const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp,newPassword } = req.body;
+    const client = await clientServices.verifyOTP(email, otp, newPassword);
+    res.status(StatusCodes.OK).json({
+      message: "OTP verified successfully",
+      data: client,
+      status: "success",
+      ok: true,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: error.message || "Error verifying OTP",
+      success: false,
+      data: [],
+      ok: false,
+    });
+  }
+}
+
 module.exports = {
   deleteClient,
   createClient,
@@ -178,4 +217,6 @@ module.exports = {
   getClientById,
   updateClient,
   ChangePassword,
+  sendOtp,
+  verifyOtp,
 };

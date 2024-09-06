@@ -15,6 +15,8 @@ const {
   getClientById,
   updateClient,
   ChangePassword,
+  sendOtp,
+  verifyOtp,
 } = require("../controllers/client_controller");
 
 clientRouter.post("/create", createClientValidator, createClient);
@@ -25,5 +27,7 @@ clientRouter.delete("/delete", isAdmin, deleteClient);
 clientRouter.get("/", isClient, getClientById);
 clientRouter.patch("/", isClient, updateClient);
 clientRouter.patch("/password", isClient, ChangePassword);
+clientRouter.patch("/sendotp", sendOtp);
+clientRouter.patch("/verifyotp", verifyOtp);
 
 module.exports = clientRouter;

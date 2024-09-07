@@ -219,7 +219,7 @@ body:
 - this endpoint is used to send the otp to the client email.
 - the client will receive the otp on the email and will be used to reset the password.
 
-10- PATCH `localhost:3000/api/v1/client/varifyotp`
+10- PATCH `localhost:3000/api/v1/client/verifyotp`
 body:
 ```json
 {
@@ -375,7 +375,7 @@ body:
 - the trainer will receive the otp on the email and will be used to reset the password.
 
 13- PATCH
- `localhost:3000/api/v1/trainer/varifyotp`
+ `localhost:3000/api/v1/trainer/verifyotp`
 
 body:
 ```json

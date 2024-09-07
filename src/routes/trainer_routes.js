@@ -1,5 +1,7 @@
 const express = require("express");
 const trainerRouter = express.Router();
+const limiter=require('../helpers/ApiRateLimiter.js')
+
 const {
   isTrainer,
   createTrainerValidator,
@@ -23,7 +25,7 @@ const {
   verifyOtp
 } = require("../controllers/trainer_controller");
 
-trainerRouter.post("/login", loginTrainer);
+trainerRouter.post("/login",limiter, loginTrainer);
 trainerRouter.post("/logout", logoutTrainer);
 trainerRouter.post("/create",createTrainerValidator, createTrainer);
 trainerRouter.post("/verify/:id", isAdmin, verifyTrainer);
@@ -36,5 +38,5 @@ trainerRouter.patch("/",isTrainer, updateTrainer);
 trainerRouter.patch("/password", isTrainer, ChangePassword);
 trainerRouter.post("/upload",fileUploadtoCloudnary)
 trainerRouter.patch("/sendotp", sendOtp);
-trainerRouter.patch("/verifyotp", verifyOtp);
+trainerRouter.patch("/verifyotp",limiter, verifyOtp);
 module.exports = trainerRouter;

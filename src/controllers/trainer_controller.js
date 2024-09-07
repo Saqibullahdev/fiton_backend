@@ -291,7 +291,7 @@ const fileUploadtoCloudnary=async(req,res)=>{
 const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    const otp = await trainerServices.sendOtp(email);
+    const otp = await trainerServices.sendOTP(email);
     res.status(StatusCodes.OK).json({
       message: "OTP sent successfully",
       status: "success",
@@ -313,7 +313,6 @@ const verifyOtp = async (req, res) => {
     const trainer = await trainerServices.verifyOTP(email, otp, newPassword);
     res.status(StatusCodes.OK).json({
       message: "OTP verified successfully",
-      data: trainer,
       status: "success",
       ok: true,
     });

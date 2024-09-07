@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config({path:'../../.env'});
-// Create a Nodemailer transporter using SMTP transport
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -24,7 +23,7 @@ async function sendEmail(recipient, subject, message) {
         console.log('Email sent successfully');
         return true;
     } catch (error) {
-        console.error('Error sending email:', error);
+        console.error('Error sending email:', error.message);
         return false;
     }
 }

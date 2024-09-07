@@ -172,7 +172,7 @@ const ChangePassword = async (req, res) => {
 const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    const otp = await clientServices.sendOtp(email);
+    const otp = await clientServices.sendOTP(email);
     res.status(StatusCodes.OK).json({
       message: "OTP sent successfully",
       status: "success",
@@ -194,7 +194,6 @@ const verifyOtp = async (req, res) => {
     const client = await clientServices.verifyOTP(email, otp, newPassword);
     res.status(StatusCodes.OK).json({
       message: "OTP verified successfully",
-      data: client,
       status: "success",
       ok: true,
     });

@@ -1,6 +1,8 @@
 const Trainer = require("../models/trainer_model");
 const { hashPassword ,verifyPassword} = require("../helpers/hashpassword");
 const { generateToken } = require("../helpers/jwtToken");
+const {generateOTP} =require('../helpers/Otp')
+const {sendEmail}=require('../utils/sendEmail')
 const {uploadFileToCloudinary}=require('../utils/UploadToCloudnary')
 const isFileTypeSupported=require('../utils/isFileTypeSupported')
 

@@ -143,7 +143,10 @@ class clientServices {
 
   async sendOTP(email) {
     try {
+      console.log("before finding client");
       const client = await Client.findOne({ email });
+      console.log("after finding client");
+      console.log(client);
       if (!client) {
         throw new Error("Client not found with the provided email");
       }
@@ -151,9 +154,9 @@ class clientServices {
       const subject = "Password Reset OTP";
       const message = `Your OTP is ${otp}`;
       client.otp = otp;
-      client.otpExpires = Date.now() + 360000 //mean current time + 360000ms = 6 minutes	
+      client.otpExpires = Date.now() + 360000; //mean current time + 360000ms = 6 minutes
       await client.save();
-      
+
       const response = await sendEmail(email, subject, message);
       if (!response) {
         throw new Error("Error sending OTP to your email");
@@ -167,23 +170,22 @@ class clientServices {
   async verifyOTP(email, otp, newPassword) {
     try {
       const client = await Client.findOne({ email });
-        if (!client) {
-            throw new Error("Client not found with the provided email");
-        }
-        if (otp !== client.otp || Date.now() > client.otpExpires) {
-            throw new Error("Invalid OTP");
-        }
-        const hashedPassword = await hashPassword(newPassword);
-        client.password = hashedPassword;
-        client.otp = null;
-        client.otpExpires = null;
-        await client.save();
-        return client;
-
-    }catch(error){
-        throw new Error(error.message || "Error verifying OTP");
+      if (!client) {
+        throw new Error("Client not found with the provided email");
+      }
+      if (otp !== client.otp || Date.now() > client.otpExpires) {
+        throw new Error("Invalid OTP");
+      }
+      const hashedPassword = await hashPassword(newPassword);
+      client.password = hashedPassword;
+      client.otp = null;
+      client.otpExpires = null;
+      await client.save();
+      return client;
+    } catch (error) {
+      throw new Error(error.message || "Error verifying OTP");
     }
-}
+  }
 }
 
 module.exports = new clientServices();

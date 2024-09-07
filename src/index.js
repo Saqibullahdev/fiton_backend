@@ -5,6 +5,8 @@ const connectDB = require('./config/dbconfig');
 const apiRouter = require('./routes/index.js');
 const fileUpload = require("express-fileupload");
 const {cloudinaryConnect}=require('./config/cloudnaryConfig.js')
+const limiter=require('./helpers/ApiRateLimiter.js')
+
 const cors=require('cors');
 
 // Connect to MongoDB database
@@ -31,7 +33,9 @@ app.use(cors({
 }));
 // Use API routes
 app.use('/api/v1', apiRouter);
-app.get('/', (req, res) => {
+let count=1
+app.get('/',limiter, (req, res) => {
+  console.log(count++)
   res.send('Welcome to the API');
 });
 

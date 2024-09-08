@@ -48,7 +48,11 @@ const clientSchema = new Schema({
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'
-    }]
+    }],
+    feedbacks: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Feedback'
+    }],
 },{timestamps: true});
 
 module.exports = mongoose.model('Client', clientSchema);

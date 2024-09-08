@@ -570,3 +570,41 @@ body:
 - this endpoint is used by the admin to ``delete`` the post request from dashboard when the post request is not relevant or not appropriate.
 
 
+### Feedback Endpoints
+
+- these are those endpoints which are used by the client to give feedback to the trainer.
+
+### give feedback to the website
+
+1. POST `localhost:3000/api/v1/feedback`
+
+Request Body:
+
+```json
+{
+  "name": "John Doe",
+  "city": "New York, NY",
+  "feedback": "I love this website. It is very user-friendly and easy to navigate."
+}
+```
+
+- this endpoint is used by the client to give feedback to the website.
+- Admin will see the feedback and can make  `isApproved` to true.
+- when the admin approves the feedback, the feedback will be shown on the website.
+
+### Get the list of feedback
+
+2. GET `localhost:3000/api/v1/feedback`
+
+- this endpoint is used to get the list of feedback given by the clients.
+- the list of feedback is displayed on the website.
+
+3- PATCH `localhost:3000/api/v1/feedback/:id`
+
+- this endpoint is used to update the feedback and make `isApproved` to true.
+- when the admin approves the feedback, the `isApproved` field of the feedback is updated to true.
+
+4- DELETE `localhost:3000/api/v1/feedback/:id`
+
+- this endpoint is used to delete the feedback from the database.
+- only ``admin`` can delete the feedback from the database.

@@ -3,15 +3,16 @@ const Feedback = require("../models/feedback");
 class FeedbackService {
   async createFeedback(clientId, name, feedback, city) {
     try {
-      const feedback = new Feedback({
+      const feedbackResponse = await new Feedback({
         clientId,
         name,
         feedback,
         city,
       });
-      await feedback.save();
-      return feedback;
+      await feedbackResponse.save();
+      return feedbackResponse;
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }
@@ -31,7 +32,7 @@ class FeedbackService {
 
   async removeFeedback(id){
     try {
-      const feedback=Feedback.findByIdAndDelete(id);
+      const feedback= await Feedback.findByIdAndDelete(id);
     if(!feedback) throw new Error('feedback not found');
     return feedback;
     } catch (error) {
@@ -42,7 +43,7 @@ class FeedbackService {
 
   async approveFeedback(id){
     try {
-      const feedback=Feedback.findById(id);
+      const feedback=await Feedback.findById(id);
     if(!feedback) throw new Error('feedback not found');
     feedback.isApproved=true;
     await feedback.save();
@@ -50,6 +51,16 @@ class FeedbackService {
     }
     catch (error) {
       throw new Error(error.message || 'error occured while approving feedback');
+    }
+  }
+
+  async getUnapprovedFeedback(){
+    try {
+      const feedbacks= await Feedback.find({isApproved:false}).sort({createdAt:-1}).exec();
+      if(!feedbacks || feedbacks.length===0) throw new Error('No unapproved feedbacks');
+      return feedbacks;
+    } catch (error) {
+      throw new Error(error.message || 'error occured while fetching unapproved feedbacks');
     }
   }
 }

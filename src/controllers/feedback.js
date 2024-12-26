@@ -4,6 +4,7 @@ class FeedbackController {
   async createFeedback(req, res) {
     try {
       const { name, feedback, city } = req.body;
+      console.log(req.body);
       const Feedback = await feedbackService.createFeedback(
         req.client.id,
         name,
@@ -15,7 +16,7 @@ class FeedbackController {
         data: Feedback,
       });
     } catch (error) {
-      res.status(400).json({ message: error.message || "error while creating feedback", ok: false, data: [] });
+      res.status(400).json({ error: error.message || "error while creating feedback", ok: false, data: [] });
     }
   }
 
@@ -27,7 +28,7 @@ class FeedbackController {
         data: feedbacks,
       });
     } catch (error) {
-      res.status(400).json({ message: error.message || "error while fetching feedback", ok: false, data: [] });
+      res.status(400).json({ error: error.message || "error while fetching feedback", ok: false, data: [] });
     }
   }
 
@@ -40,7 +41,7 @@ class FeedbackController {
         data: feedback,
       });
     } catch (error) {
-      res.status(400).json({ message: error.message || "error while deleting feedback", ok: false, data: [] });
+      res.status(400).json({ error: error.message || "error while deleting feedback", ok: false, data: [] });
     }
   }
 
@@ -53,10 +54,23 @@ class FeedbackController {
         data: feedback,
       });
     } catch (error) {
-      res.status(400).json({ message: error.message || "error while approving feedback", ok: false, data: [] });
+      res.status(400).json({ error: error.message || "error while approving feedback", ok: false, data: [] });
+    }
+  }
+
+  async getUnapprovedFeedback(req, res) {
+    try {
+      const feedbacks = await feedbackService.getUnapprovedFeedback();
+      res.status(200).json({
+        ok: true,
+        data: feedbacks,
+      });
+    } catch (error) {
+      res.status(400).json({ error: error.message || "error while fetching unapproved feedback", ok: false, data: [] });
     }
   }
 }
 
 
 const feedbackController = new FeedbackController();
+module.exports = feedbackController;

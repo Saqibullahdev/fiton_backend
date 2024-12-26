@@ -10,21 +10,24 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send an email
-async function sendEmail(recipient, subject, message) {
+async function sendEmail({from,subject, message}) {
     try {
         // Send email
-        await transporter.sendMail({
-            from: process.env.gmail, // Replace with your Gmail email address
-            to: recipient,
+       const isSend= await transporter.sendMail({
+            from: from, // Replace with your Gmail email address
+            to: process.env.gmail, // Replace with the recipient email address
             subject: subject,
-            text: message
+            text: message,
+            
         });
+        if(!isSend){
+            throw new Error('Failed to send email');
+        }
 
-        console.log('Email sent successfully');
         return true;
     } catch (error) {
         console.error('Error sending email:', error.message);
-        return false;
+        throw new Error(error.message);
     }
 }
 

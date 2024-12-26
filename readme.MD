@@ -608,3 +608,31 @@ Request Body:
 
 - this endpoint is used to delete the feedback from the database.
 - only ``admin`` can delete the feedback from the database.
+
+5- GET `localhost:5000/api/v1/feedback/unapproved`
+
+- this endpoint is used to get the list of feedback which are `not approved` by the admin.
+- from there admin can `approve` the feedback or `delete` the feedback.
+
+
+### Api for sending email
+localhost:5000/api/v1/mail
+### Send Email
+
+1. POST `localhost:5000/api/v1/mail/send`
+
+Request Body:
+
+```json
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "contactNo": "123-456-7890",
+  "message": "Hello, I am interested in your services."
+}
+```
+
+- This endpoint is used to send an email with the provided details.
+- The email will be sent to the admin or the concerned department.
+- The `name`, `email`, `contactNo`, and `message` fields are required in the request body.
+- The admin will receive the email and can respond to the client's query.

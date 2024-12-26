@@ -10,9 +10,10 @@ const {
     isAdmin,
   } = require("../middlewares/index");
 
-feedback.post("/",isClient,feedbackController.createFeedback);
-feedback.get("/",feedbackController.getFeedsback);
-feedback.delete("/:id",isAdmin,feedbackController.removeFeedback);
-feedback.patch("/:id",feedbackController.approveFeedback);
+feedbackRouter.post("/",isClient,feedbackController.createFeedback);
+feedbackRouter.get("/",feedbackController.getFeedsback);
+feedbackRouter.delete("/:id",isAdmin,feedbackController.removeFeedback);
+feedbackRouter.patch("/:id",feedbackController.approveFeedback);
+feedbackRouter.get("/unapproved",feedbackController.getUnapprovedFeedback);
 
 module.exports=feedbackRouter;
